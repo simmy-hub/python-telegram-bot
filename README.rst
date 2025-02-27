@@ -233,3 +233,29 @@ You may copy, distribute and modify the software provided that modifications are
 Derivative works (including modifications or anything statically linked to the library) can only be redistributed under LGPL-3, but applications that use the library don't have to be.
 
 .. _`GitHub releases page`: https://github.com/python-telegram-bot/python-telegram-bot/releases
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
+import requests
+
+TOKEN = "YOUR_BOT_TOKEN_HERE"
+
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Hello! I am your trading bot. Use /trade to get signals.")
+
+def trade_signal(update: Update, context: CallbackContext) -> None:
+    # Fetch or generate trade signals
+    signal = "BUY AUD/CAD for 2 minutes"  # Replace with real signals
+    update.message.reply_text(f"Trading Signal: {signal}")
+
+def main():
+    updater = Updater(TOKEN)
+    dp = updater.dispatcher
+
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("trade", trade_signal))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == "__main__":
+    main(python bot.py)
